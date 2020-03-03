@@ -9,7 +9,6 @@ git clone https://github.com/fintanohea/email-dispatch.git
 cd email-dispatch
 npm install
 nodemon
-localhost:3000
 ```
 
 ![](images/running-nodemon.png)
