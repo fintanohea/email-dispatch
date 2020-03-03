@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ title }}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Email Dispatch</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
-  <body>
-    <h1>Send Email</h1>
-    <form action="/api/send" method="POST">
-      <input type="text" name="recipients" placeholder="Recipients"/><br/>
-      <input type="text" name="subject" placeholder="Subject"/><br/>
-      <textarea name="content" placeholder="Content"></textarea><br/>
-      <textarea name="html" placeholder="HTML"></textarea><br/>
-      <button type="submit">Send</button>
-    </form>
+  <body class="container-fluid" style="background: #f9f9f9">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1>Send Email</h1>
+        <hr/>
+        <form action="/api/send" method="POST">
+          <input class="form-control" type="text" name="recipients" placeholder="Recipients"/><br/>
+          <input class="form-control" type="text" name="subject" placeholder="Subject"/><br/>
+          <textarea class="form-control" name="content" placeholder="Content"></textarea><br/>
+          <textarea class="form-control" name="html" placeholder="HTML"></textarea><br/>
+          <button class="btn btn-info" type="submit">Send</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
