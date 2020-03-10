@@ -33,19 +33,18 @@ router.post('/:action',
 
         let action = req.params.action;
 
-        console.log("request body" + JSON.stringify(req.body));
-        // if (action === 'send') {
-        //     let recipients = req.body.recipients.split(',');
+        if (action === 'send') {
+            let recipients = req.body.recipients.split(',');
 
-        //     utils.Email.sendEmails(recipients, req.body, () => {
-        //         res.json({
-        //             confirmation: 'success',
-        //             message: 'Emails Sent!'
-        //         });
-        //     });
+            utils.Email.sendEmails(recipients, req.body, () => {
+                res.json({
+                    confirmation: 'success',
+                    message: 'Emails Sent!'
+                });
+            });
 
-        //     return;
-        // }
+            return;
+        }
 
         res.json({
             confirmation: 'fail',
