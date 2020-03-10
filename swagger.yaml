@@ -1,0 +1,51 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: Email Dispatch API
+  description: A simple API to send emails
+
+schemes:
+  - https
+host: foh-email-dispatch.herokuapp.com
+basePath: /api
+
+paths:
+  /send:
+    post:
+      summary: Send data to email adresses provided
+      description: Send data to email adresses provided.
+      parameters:
+        - name: email
+          in: body
+          description: Email data to send.
+          schema:
+            required:
+              - recipients
+              - subject
+              - content
+              - html
+            properties:
+              recipients:
+                type: string
+              subject:
+                type: string
+              content:
+                type: string
+              html:
+                type: string 
+      responses:
+        200:
+          description: Confirmation of emails sent
+          schema:
+            type: array
+            items:
+              properties:
+                confirmation:
+                  type: string
+                message:
+                  type: string
+        400:
+          description: Could not send emails.
+        422:
+          description: Could not send emails.  
