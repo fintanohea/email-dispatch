@@ -1,50 +1,51 @@
-const sgMail = require('@sendgrid/mail');
-const Promise = require('bluebird');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const sgMail = require('@sendgrid/mail')
+const Promise = require('bluebird')
+const constants = require('../constants/constants')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 module.exports = {
     sendEmails: (recipients, emailInfo, completion) => {
         let msg = {
-            to: '',
-            from: 'app163557149@heroku.com',
+            to: constants.EMPTY_STRING_VALUE,
+            from: constants.SENDING_EMAIL_ADDRESS,
             subject: emailInfo.subject,
             text: emailInfo.content,
             html: emailInfo.html,
-        };
+        }
         
         recipients.forEach( (recipient) => {
-            msg.to = recipient.trim();
+            msg.to = recipient.trim()
             sgMail
                 .send(msg)
                 .then(() => {
                 })
                 .catch(error => {
-                });
-        });
+                })
+        })
 
-        completion();
+        completion()
     },
 
     sendEmail: (emailInfo) => {
         return new Promise( (resolve, reject) => {
             const msg = {
                 to: emailInfo.recipient,
-                from: 'app163557149@heroku.com',
+                from: constants.SENDING_EMAIL_ADDRESS,
                 subject: emailInfo.subject,
                 text: emailInfo.content,
                 html: emailInfo.html,
-            };
+            }
             
             sgMail
                 .send(msg)
                 .then(() => {
-                    resolve('Success');
+                    resolve(constants.SUCCESS)
                 })
                 .catch(error => {
-                    reject(error);
-                });
+                    reject(error)
+                })
 
-            return;
-        });
+            return
+        })
     }
 }
