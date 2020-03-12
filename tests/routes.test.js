@@ -1,36 +1,37 @@
 const request = require('supertest')
 const app = require('../app')
+const constants = require('../constants/constants')
 
 describe('Post Endpoints', () => {
   it('should send email', async () => {
     const res = await request(app)
-      .post('/api/send')
+      .post(constants.API_SEND_ROUTE)
       .send({
-        recipients: 'testfrom@gmail.com',
-        subject: 'Test Subject',
-        content: 'Test content',
-        html: 'Test content'
+        recipients: constants.VALID_EMAIL_VALUE,
+        subject: constants.VALID_STRING_VALUE,
+        content: constants.VALID_STRING_VALUE,
+        html: constants.VALID_STRING_VALUE
       })
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual({ confirmation: 'success', message: 'Emails Sent!' });
+    expect(res.body).toEqual({ confirmation: constants.SUCCESS, message: constants.EMAILS_SENT_MESSAGE});
   })
 
   it('should return recipients missing error', async () => {
     const res = await request(app)
-      .post('/api/send')
+      .post(constants.API_SEND_ROUTE)
       .send({
-        recipients: '',
-        subject: 'Test Subject',
-        content: 'Test content',
-        html: 'Test content'
+        recipients: constants.EMPTY_STRING_VALUE,
+        subject: constants.VALID_STRING_VALUE,
+        content: constants.VALID_STRING_VALUE,
+        html: constants.VALID_STRING_VALUE
       })
     expect(res.statusCode).toEqual(422)
     expect(res.body).toEqual({
       errors: [
         {
-          value: '',
-          msg: 'No recipients provided',
-          param: 'recipients',
+          value: constants.EMPTY_STRING_VALUE,
+          msg: constants.NO_RECIPIENTS_MESSAGE,
+          param: constants.RECIPIENTS_PARAM,
           location: 'body'
         }
       ]
@@ -39,20 +40,20 @@ describe('Post Endpoints', () => {
 
   it('should return invalid recipients email error', async () => {
     const res = await request(app)
-      .post('/api/send')
+      .post(constants.API_SEND_ROUTE)
       .send({
-        value: 'test',
-          msg: 'Invalid email provided: test',
-          param: 'recipients',
-          location: 'body'
+        recipients: constants.INVALID_EMAIL_VALUE,
+        subject: constants.VALID_STRING_VALUE,
+        content: constants.VALID_STRING_VALUE,
+        html: constants.VALID_STRING_VALUE
       })
     expect(res.statusCode).toEqual(422)
     expect(res.body).toEqual({
       errors: [
         {
-          value: '',
-          msg: 'No recipients provided',
-          param: 'recipients',
+          value: constants.INVALID_EMAIL_VALUE,
+          msg: constants.INVALID_EMAIL_MESSAGE + constants.INVALID_EMAIL_VALUE,
+          param: constants.RECIPIENTS_PARAM,
           location: 'body'
         }
       ]
@@ -61,20 +62,20 @@ describe('Post Endpoints', () => {
 
   it('should return subject missing error', async () => {
     const res = await request(app)
-      .post('/api/send')
+      .post(constants.API_SEND_ROUTE)
       .send({
-        recipients: 'testfrom@gmail.com',
-        subject: '',
-        content: 'Test content',
-        html: 'Test content'
+        recipients: constants.VALID_EMAIL_VALUE,
+        subject: constants.EMPTY_STRING_VALUE,
+        content: constants.VALID_STRING_VALUE,
+        html: constants.VALID_STRING_VALUE
       })
     expect(res.statusCode).toEqual(422)
     expect(res.body).toEqual({
       errors: [
         {
-          value: '',
-          msg: 'No subject provided',
-          param: 'subject',
+          value: constants.EMPTY_STRING_VALUE,
+          msg: constants.NO_SUBJECT_MESSAGE,
+          param: constants.SUBJECT_PARAM,
           location: 'body'
         }
       ]
@@ -83,20 +84,20 @@ describe('Post Endpoints', () => {
 
   it('should return content missing error', async () => {
     const res = await request(app)
-      .post('/api/send')
+      .post(constants.API_SEND_ROUTE)
       .send({
-        recipients: 'testfrom@gmail.com',
-        subject: 'Test Subject',
-        content: '',
-        html: 'Test content'
+        recipients: constants.VALID_EMAIL_VALUE,
+        subject: constants.VALID_STRING_VALUE,
+        content: constants.EMPTY_STRING_VALUE,
+        html: constants.VALID_STRING_VALUE
       })
     expect(res.statusCode).toEqual(422)
     expect(res.body).toEqual({
       errors: [
         {
-          value: '',
-          msg: 'No content provided',
-          param: 'content',
+          value: constants.EMPTY_STRING_VALUE,
+          msg: constants.NO_CONTENT_MESSAGE,
+          param: constants.CONTENT_PARAM,
           location: 'body'
         }
       ]
@@ -105,25 +106,23 @@ describe('Post Endpoints', () => {
 
   it('should return html missing error', async () => {
     const res = await request(app)
-      .post('/api/send')
+      .post(constants.API_SEND_ROUTE)
       .send({
-        recipients: 'testfrom@gmail.com',
-        subject: 'Test Subject',
-        content: 'Test content',
-        html: ''
+        recipients: constants.VALID_EMAIL_VALUE,
+        subject: constants.VALID_STRING_VALUE,
+        content: constants.VALID_STRING_VALUE,
+        html: constants.EMPTY_STRING_VALUE
       })
     expect(res.statusCode).toEqual(422)
     expect(res.body).toEqual({
       errors: [
         {
-          value: '',
-          msg: 'No html provided',
-          param: 'html',
+          value: constants.EMPTY_STRING_VALUE,
+          msg: constants.NO_HTML_MESSAGE,
+          param: constants.HTML_PARAM,
           location: 'body'
         }
       ]
     });
   })
-
-  
 })

@@ -1,55 +1,56 @@
-const express = require('express');
-const utils = require('../utils');
-const validator = require('validator');
-const { body, validationResult, check } = require('express-validator');
-const router = express.Router();
+const express = require('express')
+const utils = require('../utils')
+const validator = require('validator')
+const constants = require('../constants/constants')
+const { body, validationResult, check } = require('express-validator')
+const router = express.Router()
 
 router.post('/:action',  
     [
-        check('subject', 'No subject provided').not().isEmpty().trim().escape(),
-        check('html', 'No html provided').not().isEmpty().trim().escape(),
-        check('content', 'No content provided').not().isEmpty().trim().escape(),
-        body('recipients').custom(value => {
+        check(constants.SUBJECT_PARAM, constants.NO_SUBJECT_MESSAGE).not().isEmpty().trim().escape(),
+        check(constants.HTML_PARAM, constants.NO_HTML_MESSAGE).not().isEmpty().trim().escape(),
+        check(constants.CONTENT_PARAM, constants.NO_CONTENT_MESSAGE).not().isEmpty().trim().escape(),
+        body(constants.RECIPIENTS_PARAM).custom(value => {
             if(!value){
-                throw new Error('No recipients provided'); 
+                throw new Error(constants.NO_RECIPIENTS_MESSAGE) 
             } 
 
-            let recipients = value.split(',');
+            let recipients = value.split(constants.EMAIL_SEPERATOR)
             recipients.forEach((recipient) => {
                 if (!validator.isEmail(recipient.trim())) {
-                    throw new Error('Invalid email provided: ' + recipient); 
+                    throw new Error(constants.INVALID_EMAIL_MESSAGE + recipient) 
                 }
-            });
+            })
             
-            return true;
+            return true
         })
             
     ], 
     (req, res, next) => {
-        const errors = validationResult(req);
+        const errors = validationResult(req)
         if (!errors.isEmpty()) {
-          return res.status(422).json({ errors: errors.array() });
+          return res.status(422).json({ errors: errors.array() })
         }
 
-        let action = req.params.action;
+        let action = req.params.action
 
-        if (action === 'send') {
-            let recipients = req.body.recipients.split(',');
+        if (action === constants.SEND_ACTION) {
+            let recipients = req.body.recipients.split(constants.EMAIL_SEPERATOR)
 
             utils.Email.sendEmails(recipients, req.body, () => {
                 res.json({
-                    confirmation: 'success',
-                    message: 'Emails Sent!'
-                });
-            });
+                    confirmation: constants.SUCCESS,
+                    message: constants.EMAILS_SENT_MESSAGE
+                })
+            })
 
-            return;
+            return
         }
 
         res.json({
-            confirmation: 'fail',
-            message: 'Invalid Action'
-        });
-});
+            confirmation: constants.FAIL,
+            message: constants.INVALID_ACTION_MESSAGE
+        })
+})
 
-module.exports = router;
+module.exports = router
