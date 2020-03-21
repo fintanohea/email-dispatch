@@ -26,7 +26,7 @@ router.post('/:action',
         })
             
     ], 
-    (req, res, next) => {
+    (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
           return res.status(422).json({ errors: errors.array() })
@@ -35,15 +35,19 @@ router.post('/:action',
         let action = req.params.action
 
         if (action === constants.SEND_ACTION) {
-            let recipients = req.body.recipients.split(constants.EMAIL_SEPERATOR)
-
-            utils.Email.sendEmails(recipients, req.body, () => {
-                res.json({
-                    confirmation: constants.SUCCESS,
-                    message: constants.EMAILS_SENT_MESSAGE
+            utils.Email.sendEmail(req.body)
+                .then( () => {
+                    res.json({
+                        confirmation: constants.SUCCESS,
+                        message: constants.EMAILS_SENT_MESSAGE
+                    })
                 })
-            })
-
+                .catch( err => {
+                    res.json({
+                        confirmation: constants.FAIL,
+                        message: err
+                    })
+                });
             return
         }
 
