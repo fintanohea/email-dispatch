@@ -24,7 +24,6 @@ router.post('/:action',
             
             return true
         })
-            
     ], 
     (req, res) => {
         const errors = validationResult(req)
