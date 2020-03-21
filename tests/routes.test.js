@@ -3,18 +3,18 @@ const app = require('../app')
 const constants = require('../constants/constants')
 
 describe('Post Endpoints', () => {
-  it('should send email', async () => {
-    const res = await request(app)
-      .post(constants.API_SEND_ROUTE)
-      .send({
-        recipients: constants.VALID_EMAIL_VALUE,
-        subject: constants.VALID_STRING_VALUE,
-        content: constants.VALID_STRING_VALUE,
-        html: constants.VALID_STRING_VALUE
-      })
-    expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual({ confirmation: constants.SUCCESS, message: constants.EMAILS_SENT_MESSAGE});
-  })
+  // it('should send email', async () => {
+  //   const res = await request(app)
+  //     .post(constants.API_SEND_ROUTE)
+  //     .send({
+  //       recipients: constants.VALID_EMAIL_VALUE,
+  //       subject: constants.VALID_STRING_VALUE,
+  //       content: constants.VALID_STRING_VALUE,
+  //       html: constants.VALID_STRING_VALUE
+  //     })
+  //   expect(res.statusCode).toEqual(200)
+  //   expect(res.body).toEqual({ confirmation: constants.SUCCESS, message: constants.EMAILS_SENT_MESSAGE});
+  // })
 
   it('should return recipients missing error', async () => {
     const res = await request(app)
