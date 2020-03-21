@@ -3,7 +3,7 @@ const app = require('../app')
 const constants = require('../constants/constants')
 
 describe('Post Endpoints', () => {
-  it('should send email', async () => {
+  fit('should send email', async () => {
     const res = await request(app)
       .post(constants.API_SEND_ROUTE)
       .send({
@@ -12,6 +12,7 @@ describe('Post Endpoints', () => {
         content: constants.VALID_STRING_VALUE,
         html: constants.VALID_STRING_VALUE
       })
+      console.log(res.body)
     expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual({ confirmation: constants.SUCCESS, message: constants.EMAILS_SENT_MESSAGE});
   })
