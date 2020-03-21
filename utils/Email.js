@@ -1,8 +1,7 @@
 const sgMail = require('@sendgrid/mail')
 const Promise = require('bluebird')
 const constants = require('../constants/constants')
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-sgMail.setApiKey('asdasdasd')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 module.exports = {
     sendEmails: (recipients, emailInfo, completion) => {
