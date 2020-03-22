@@ -13,9 +13,9 @@
     ]
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.5.3",
+    "@sendgrid/mail": "^6.5.5",
     "bluebird": "^3.7.2",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "jest": "^25.1.0",
+    "minimist": "^1.2.5",
     "supertest": "^4.0.2"
   }
 }
