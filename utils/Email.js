@@ -1,3 +1,5 @@
+require('dotenv').config({path:__dirname+'/./../.env'})
+
 const sgMail = require('@sendgrid/mail')
 const Promise = require('bluebird')
 const constants = require('../constants/constants')
